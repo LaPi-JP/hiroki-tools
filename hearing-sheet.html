@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webサイト制作 ヒアリングシート</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @page {
+      size: A4;
+      margin: 12mm 16mm;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Hiragino Sans', 'Noto Sans JP', 'Meiryo', sans-serif;
+      background: #f0f0f0;
+      color: #333;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .sheet {
+      width: 210mm;
+      background: #fff;
+      margin: 20px auto;
+      padding: 40px 48px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    }
+
+    /* ヘッダー */
+    .sheet-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #2c3e50;
+    }
+
+    .sheet-header h1 {
+      font-size: 26px;
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 2px;
+    }
+
+    .sheet-header p {
+      font-size: 13px;
+      color: #7f8c8d;
+    }
+
+    .sheet-header .date-line {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .sheet-header .date-line input {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      width: 180px;
+      font-size: 13px;
+      padding: 2px 4px;
+      font-family: inherit;
+    }
+
+    /* セクション */
+    .section {
+      margin-bottom: 28px;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #2c3e50;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+
+    .section-title .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: #fff;
+      color: #2c3e50;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* フォーム項目 */
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 4px;
+    }
+
+    .field input[type="text"],
+    .field input[type="date"],
+    .field textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-family: inherit;
+      background: #fafafa;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: #3498db;
+      background: #fff;
+    }
+
+    .field textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .field-row .field {
+      flex: 1;
+    }
+
+    /* チェックボックス */
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      margin-top: 4px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #444;
+      cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #2c3e50;
+    }
+
+    /* ラジオボタン */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      margin-top: 4px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #444;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #2c3e50;
+    }
+
+    /* ヒント */
+    .hint {
+      font-size: 11px;
+      color: #999;
+      margin-top: 2px;
+    }
+
+    /* 改ページ */
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* フッター */
+    .sheet-footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    /* ツールバー */
+    .toolbar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .toolbar button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
+    }
+
+    .toolbar button:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-pdf {
+      background: #2c3e50;
+      color: #fff;
+    }
+
+    .btn-reset {
+      background: #e74c3c;
+      color: #fff;
+    }
+
+    /* 印刷用 */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body { background: none; }
+      .sheet {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+      .toolbar { display: none !important; }
+      .field input,
+      .field textarea {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 0;
+        background: none !important;
+        padding-left: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sheet">
+
+    <!-- ヘッダー -->
+    <div class="sheet-header">
+      <h1>Web Site Hearing Sheet</h1>
+      <p>Webサイト制作 ヒアリングシート</p>
+      <div class="date-line">
+        <span>記入日: <input type="date" id="fillDate"></span>
+        <span>お名前: <input type="text" placeholder="ご担当者名"></span>
+      </div>
+    </div>
+
+    <!-- 1. 基本情報 -->
+    <div class="section">
+      <div class="section-title"><span class="num">1</span> 基本情報</div>
+      <div class="field-row">
+        <div class="field">
+          <label>会社名 / 店舗名 / 個人名 *</label>
+          <input type="text" placeholder="例: 株式会社○○ / ○○サロン">
+        </div>
+        <div class="field">
+          <label>業種・業態 *</label>
+          <input type="text" placeholder="例: 美容室 / 飲食店 / IT企業">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>所在地</label>
+          <input type="text" placeholder="例: 東京都渋谷区...">
+        </div>
+        <div class="field">
+          <label>電話番号</label>
+          <input type="text" placeholder="例: 03-1234-5678">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>メールアドレス</label>
+          <input type="text" placeholder="例: info@example.com">
+        </div>
+        <div class="field">
+          <label>ご担当者名</label>
+          <input type="text" placeholder="例: 山田太郎">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. サイトの目的 -->
+    <div class="section">
+      <div class="section-title"><span class="num">2</span> サイトの目的</div>
+      <div class="field">
+        <label>サイトを作る目的は？（複数選択可）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> 集客・新規顧客の獲得</label>
+          <label><input type="checkbox"> ブランディング・信頼性向上</label>
+          <label><input type="checkbox"> 商品・サービスの販売（EC）</label>
+          <label><input type="checkbox"> 採用・求人</label>
+          <label><input type="checkbox"> 情報発信・ブログ</label>
+          <label><input type="checkbox"> 予約受付</label>
+          <label><input type="checkbox"> 名刺代わり</label>
+          <label><input type="checkbox"> その他</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>ターゲット（どんなお客様に見てほしいですか？）</label>
+        <textarea placeholder="例: 30〜40代の女性、近隣住民、ビジネスパートナー、海外のお客様 など"></textarea>
+      </div>
+      <div class="field">
+        <label>サイトを見たお客様に何をしてほしいですか？</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> 問い合わせ</label>
+          <label><input type="checkbox"> 来店・来社</label>
+          <label><input type="checkbox"> 予約</label>
+          <label><input type="checkbox"> 商品購入</label>
+          <label><input type="checkbox"> 電話をかける</label>
+          <label><input type="checkbox"> SNSをフォロー</label>
+          <label><input type="checkbox"> 資料請求</label>
+          <label><input type="checkbox"> その他</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. サイトの規模・機能 -->
+    <div class="section">
+      <div class="section-title"><span class="num">3</span> サイトの規模・機能</div>
+      <div class="field">
+        <label>希望するサイトの規模</label>
+        <div class="radio-group">
+          <label><input type="radio" name="scale"> 1ページ（LP）</label>
+          <label><input type="radio" name="scale"> 5ページ程度</label>
+          <label><input type="radio" name="scale"> 10ページ以上</label>
+          <label><input type="radio" name="scale"> おまかせ</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>必要な機能（複数選択可）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> お問い合わせフォーム</label>
+          <label><input type="checkbox"> 予約システム</label>
+          <label><input type="checkbox"> EC（オンラインショップ）</label>
+          <label><input type="checkbox"> ブログ / ニュース</label>
+          <label><input type="checkbox"> SNS連携</label>
+          <label><input type="checkbox"> 多言語対応</label>
+          <label><input type="checkbox"> チャットボット</label>
+          <label><input type="checkbox"> 会員機能 / ログイン</label>
+          <label><input type="checkbox"> Googleマップ埋め込み</label>
+          <label><input type="checkbox"> 動画埋め込み</label>
+          <label><input type="checkbox"> アクセス解析（Google Analytics等）</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>その他に必要な機能があれば</label>
+        <input type="text" placeholder="例: メルマガ配信、ポイントシステム、顧客管理 など">
+      </div>
+    </div>
+
+    <!-- 改ページ -->
+    <div class="page-break"></div>
+
+    <!-- 4. デザイン -->
+    <div class="section">
+      <div class="section-title"><span class="num">4</span> デザイン</div>
+      <div class="field">
+        <label>参考にしたいサイトのURL（2〜3個）</label>
+        <textarea placeholder="例:&#10;https://example1.com （シンプルで見やすいところが好き）&#10;https://example2.com （色の使い方が好き）"></textarea>
+        <p class="hint">※ どこが好きかもコメントいただけると助かります</p>
+      </div>
+      <div class="field">
+        <label>好みのデザインイメージ</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> シンプル・ミニマル</label>
+          <label><input type="checkbox"> かわいい・ポップ</label>
+          <label><input type="checkbox"> クール・スタイリッシュ</label>
+          <label><input type="checkbox"> 高級感・エレガント</label>
+          <label><input type="checkbox"> ナチュラル・温かい</label>
+          <label><input type="checkbox"> コーポレート・信頼感</label>
+          <label><input type="checkbox"> おまかせ</label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>ブランドカラー（決まっている場合）</label>
+          <input type="text" placeholder="例: 青と白 / #3498db / 特になし">
+        </div>
+        <div class="field">
+          <label>ロゴデータはありますか？</label>
+          <div class="radio-group">
+            <label><input type="radio" name="logo"> あり（データあり）</label>
+            <label><input type="radio" name="logo"> あり（作成が必要）</label>
+            <label><input type="radio" name="logo"> なし（ロゴ制作も依頼したい）</label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>写真素材について</label>
+        <div class="radio-group">
+          <label><input type="radio" name="photo"> 素材あり（自社で撮影済み）</label>
+          <label><input type="radio" name="photo"> 一部あり（追加撮影が必要）</label>
+          <label><input type="radio" name="photo"> なし（フリー素材 or 撮影依頼）</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. コンテンツ -->
+    <div class="section">
+      <div class="section-title"><span class="num">5</span> コンテンツ</div>
+      <div class="field">
+        <label>掲載テキスト（原稿）は用意できますか？</label>
+        <div class="radio-group">
+          <label><input type="radio" name="text"> 自分で用意する</label>
+          <label><input type="radio" name="text"> たたき台を作ってほしい</label>
+          <label><input type="radio" name="text"> すべておまかせしたい</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>掲載する商品 / サービスの数</label>
+        <input type="text" placeholder="例: 商品50点 / サービス5種類 / メニュー20品 など">
+      </div>
+      <div class="field">
+        <label>SNSアカウント（連携したいもの）</label>
+        <textarea placeholder="例:&#10;Instagram: @example&#10;Facebook: https://facebook.com/example&#10;LINE: @example&#10;TikTok: @example"></textarea>
+      </div>
+    </div>
+
+    <!-- 6. 技術要件 -->
+    <div class="section">
+      <div class="section-title"><span class="num">6</span> 技術・ドメイン</div>
+      <div class="field-row">
+        <div class="field">
+          <label>独自ドメインはお持ちですか？</label>
+          <div class="radio-group">
+            <label><input type="radio" name="domain"> 持っている</label>
+            <label><input type="radio" name="domain"> 持っていない（取得したい）</label>
+            <label><input type="radio" name="domain"> わからない</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>希望のドメイン名</label>
+          <input type="text" placeholder="例: example.com / example.co.jp">
+        </div>
+      </div>
+      <div class="field">
+        <label>現在のサイトはありますか？（リニューアルの場合）</label>
+        <input type="text" placeholder="例: https://current-site.com（なければ空欄）">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>スマホ対応</label>
+          <div class="radio-group">
+            <label><input type="radio" name="mobile"> 必須</label>
+            <label><input type="radio" name="mobile"> できれば</label>
+            <label><input type="radio" name="mobile"> 不要</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>SEO対策（検索エンジン最適化）</label>
+          <div class="radio-group">
+            <label><input type="radio" name="seo"> 重視したい</label>
+            <label><input type="radio" name="seo"> 基本的な対応でOK</label>
+            <label><input type="radio" name="seo"> 特に不要</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 改ページ -->
+    <div class="page-break"></div>
+
+    <!-- 7. 運用・更新 -->
+    <div class="section">
+      <div class="section-title"><span class="num">7</span> 運用・更新</div>
+      <div class="field-row">
+        <div class="field">
+          <label>公開後、誰が更新しますか？</label>
+          <div class="radio-group">
+            <label><input type="radio" name="update"> 自社・自分で更新</label>
+            <label><input type="radio" name="update"> 制作者に依頼</label>
+            <label><input type="radio" name="update"> 未定</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>更新頻度の目安</label>
+          <div class="radio-group">
+            <label><input type="radio" name="freq"> 毎日</label>
+            <label><input type="radio" name="freq"> 週1回</label>
+            <label><input type="radio" name="freq"> 月1回</label>
+            <label><input type="radio" name="freq"> ほぼなし</label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>CMS（自分で更新できるシステム）は必要ですか？</label>
+        <div class="radio-group">
+          <label><input type="radio" name="cms"> はい（WordPress等）</label>
+          <label><input type="radio" name="cms"> いいえ</label>
+          <label><input type="radio" name="cms"> わからない・おまかせ</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>保守・サポート契約</label>
+        <div class="radio-group">
+          <label><input type="radio" name="support"> 必要（月額サポート希望）</label>
+          <label><input type="radio" name="support"> 不要（納品後は自分で管理）</label>
+          <label><input type="radio" name="support"> 相談したい</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. 予算・スケジュール -->
+    <div class="section">
+      <div class="section-title"><span class="num">8</span> 予算・スケジュール</div>
+      <div class="field-row">
+        <div class="field">
+          <label>ご予算の目安</label>
+          <div class="radio-group">
+            <label><input type="radio" name="budget"> 〜10万円</label>
+            <label><input type="radio" name="budget"> 10〜30万円</label>
+            <label><input type="radio" name="budget"> 30〜50万円</label>
+            <label><input type="radio" name="budget"> 50〜100万円</label>
+            <label><input type="radio" name="budget"> 100万円以上</label>
+            <label><input type="radio" name="budget"> 相談して決めたい</label>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>希望の公開日</label>
+          <input type="text" placeholder="例: 2026年7月末まで / できるだけ早く">
+        </div>
+        <div class="field">
+          <label>急ぎ度</label>
+          <div class="radio-group">
+            <label><input type="radio" name="urgency"> 急ぎ（1ヶ月以内）</label>
+            <label><input type="radio" name="urgency"> 通常（2〜3ヶ月）</label>
+            <label><input type="radio" name="urgency"> ゆっくりでOK</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. その他 -->
+    <div class="section">
+      <div class="section-title"><span class="num">9</span> その他</div>
+      <div class="field">
+        <label>競合サイトのURL（あれば）</label>
+        <textarea placeholder="例:&#10;https://competitor1.com&#10;https://competitor2.com"></textarea>
+      </div>
+      <div class="field">
+        <label>絶対にやりたいこと / こだわりたいポイント</label>
+        <textarea placeholder="例: トップページに動画を使いたい、お客様の声を目立たせたい など"></textarea>
+      </div>
+      <div class="field">
+        <label>やりたくないこと / 避けたいこと</label>
+        <textarea placeholder="例: 派手すぎるデザイン、ポップアップ広告 など"></textarea>
+      </div>
+      <div class="field">
+        <label>その他ご要望・備考</label>
+        <textarea placeholder="その他、気になることや相談したいことがあればご記入ください"></textarea>
+      </div>
+    </div>
+
+    <!-- フッター -->
+    <div class="sheet-footer">
+      ご記入ありがとうございます。内容を確認の上、ご提案いたします。
+    </div>
+
+  </div>
+
+  <!-- ツールバー -->
+  <div class="toolbar">
+    <button class="btn-reset" onclick="resetForm()">🔄 リセット</button>
+    <button class="btn-pdf" onclick="window.print()">📄 PDF保存</button>
+  </div>
+
+  <script>
+    // 今日の日付をセット
+    document.getElementById('fillDate').valueAsDate = new Date();
+
+    // フォームリセット
+    function resetForm() {
+      if (confirm('すべての入力内容をリセットしますか？')) {
+        document.querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el => el.value = '');
+        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => el.checked = false);
+        document.getElementById('fillDate').valueAsDate = new Date();
+      }
+    }
+  </script>
+
+</body>
+</html>

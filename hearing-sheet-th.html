@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบสอบถามเพื่อจัดทำเว็บไซต์</title>
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Sarabun', 'Noto Sans Thai', 'Segoe UI', sans-serif;
+      background: #f0f0f0;
+      color: #333;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    /* フォームコンテナ */
+    .sheet {
+      max-width: 800px;
+      background: #fff;
+      margin: 20px auto;
+      padding: 40px 48px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+      border-radius: 12px;
+    }
+
+    /* ヘッダー */
+    .sheet-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #2c3e50;
+    }
+
+    .sheet-header h1 {
+      font-size: 24px;
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .sheet-header p {
+      font-size: 13px;
+      color: #7f8c8d;
+      margin-bottom: 4px;
+    }
+
+    .sheet-header .intro {
+      font-size: 13px;
+      color: #555;
+      margin-top: 12px;
+      text-align: left;
+      background: #f8f9fa;
+      padding: 12px 16px;
+      border-radius: 8px;
+      line-height: 1.9;
+    }
+
+    /* セクション */
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background: #2c3e50;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .section-title .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: #fff;
+      color: #2c3e50;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* フォーム項目 */
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field > label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 6px;
+    }
+
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field input[type="date"],
+    .field textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fafafa;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: #3498db;
+      background: #fff;
+    }
+
+    .field textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .field-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .field-row .field {
+      flex: 1;
+    }
+
+    /* チェックボックス・ラジオ */
+    .checkbox-group,
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 4px;
+    }
+
+    .checkbox-group label,
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #444;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .checkbox-group input[type="checkbox"],
+    .radio-group input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #2c3e50;
+    }
+
+    /* ヒント */
+    .hint {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    /* 必須マーク */
+    .required {
+      color: #e74c3c;
+      font-size: 12px;
+    }
+
+    /* 送信ボタンエリア */
+    .submit-area {
+      text-align: center;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 2px solid #ecf0f1;
+    }
+
+    .submit-area p {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 16px;
+    }
+
+    .btn-submit {
+      padding: 16px 60px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #27ae60;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(39,174,96,0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(39,174,96,0.4);
+    }
+
+    .btn-submit:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* 送信中オーバーレイ */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .loading-box {
+      background: #fff;
+      padding: 40px 60px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    .loading-box .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #ecf0f1;
+      border-top: 4px solid #2c3e50;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 完了メッセージ */
+    .success-message {
+      display: none;
+      text-align: center;
+      padding: 60px 40px;
+    }
+
+    .success-message.active {
+      display: block;
+    }
+
+    .success-message .check-icon {
+      width: 80px;
+      height: 80px;
+      background: #27ae60;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 40px;
+      color: #fff;
+    }
+
+    .success-message h2 {
+      color: #2c3e50;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .success-message p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    /* フッター */
+    .sheet-footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      .sheet {
+        margin: 10px;
+        padding: 24px 20px;
+      }
+
+      .field-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .sheet-header h1 {
+        font-size: 20px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 送信中オーバーレイ -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <p>กำลังส่งข้อมูล...</p>
+      <p style="font-size: 12px; color: #999; margin-top: 4px;">กรุณารอสักครู่</p>
+    </div>
+  </div>
+
+  <div class="sheet" id="formSheet">
+
+    <!-- ヘッダー -->
+    <div class="sheet-header">
+      <h1>📋 แบบสอบถามเพื่อจัดทำเว็บไซต์</h1>
+      <p>Web Site Hearing Sheet</p>
+      <div class="intro">
+        กรุณากรอกข้อมูลด้านล่างให้ได้มากที่สุดเท่าที่จะทำได้ค่ะ<br>
+        ข้อมูลเหล่านี้จะช่วยให้เราสามารถออกแบบและจัดทำเว็บไซต์ที่ตรงกับความต้องการของคุณมากที่สุด<br>
+        หากข้อใดไม่แน่ใจ สามารถเว้นว่างไว้ได้ค่ะ 😊
+      </div>
+    </div>
+
+    <form id="hearingForm" onsubmit="return handleSubmit(event)">
+
+      <!-- 1. ข้อมูลพื้นฐาน -->
+      <div class="section">
+        <div class="section-title"><span class="num">1</span> ข้อมูลพื้นฐาน</div>
+        <div class="field-row">
+          <div class="field">
+            <label>ชื่อบริษัท / ชื่อร้าน / ชื่อบุคคล <span class="required">*</span></label>
+            <input type="text" id="companyName" placeholder="เช่น: บริษัท ○○ / ร้าน ○○" required>
+          </div>
+          <div class="field">
+            <label>ประเภทธุรกิจ <span class="required">*</span></label>
+            <input type="text" id="businessType" placeholder="เช่น: ร้านเสริมสวย / ร้านอาหาร / บริษัทไอที">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>ที่อยู่</label>
+            <input type="text" id="address" placeholder="เช่น: กรุงเทพฯ เขต...">
+          </div>
+          <div class="field">
+            <label>เบอร์โทรศัพท์</label>
+            <input type="tel" id="phone" placeholder="เช่น: 08X-XXX-XXXX">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>อีเมล</label>
+            <input type="email" id="email" placeholder="เช่น: info@example.com">
+          </div>
+          <div class="field">
+            <label>ชื่อผู้ติดต่อ <span class="required">*</span></label>
+            <input type="text" id="contactName" placeholder="ชื่อ-นามสกุล" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>LINE ID (ถ้ามี)</label>
+          <input type="text" id="lineId" placeholder="เช่น: @example">
+        </div>
+      </div>
+
+      <!-- 2. วัตถุประสงค์ของเว็บไซต์ -->
+      <div class="section">
+        <div class="section-title"><span class="num">2</span> วัตถุประสงค์ของเว็บไซต์</div>
+        <div class="field">
+          <label>จุดประสงค์ในการทำเว็บไซต์ (เลือกได้หลายข้อ)</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="purpose" value="ดึงดูดลูกค้าใหม่"> ดึงดูดลูกค้าใหม่</label>
+            <label><input type="checkbox" name="purpose" value="สร้างแบรนด์ / ความน่าเชื่อถือ"> สร้างแบรนด์ / ความน่าเชื่อถือ</label>
+            <label><input type="checkbox" name="purpose" value="ขายสินค้า / บริการออนไลน์"> ขายสินค้า / บริการออนไลน์</label>
+            <label><input type="checkbox" name="purpose" value="รับสมัครงาน"> รับสมัครงาน</label>
+            <label><input type="checkbox" name="purpose" value="เผยแพร่ข้อมูล / บล็อก"> เผยแพร่ข้อมูล / บล็อก</label>
+            <label><input type="checkbox" name="purpose" value="รับจองคิว"> รับจองคิว</label>
+            <label><input type="checkbox" name="purpose" value="ใช้แทนนามบัตร"> ใช้แทนนามบัตร</label>
+            <label><input type="checkbox" name="purpose" value="อื่นๆ"> อื่นๆ</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>กลุ่มเป้าหมาย (ต้องการให้ใครเข้ามาดูเว็บไซต์？)</label>
+          <textarea id="target" placeholder="เช่น: ผู้หญิงอายุ 20-40 ปี, คนในพื้นที่, ลูกค้าต่างชาติ เป็นต้น"></textarea>
+        </div>
+        <div class="field">
+          <label>ต้องการให้ลูกค้าทำอะไรหลังจากเข้าเว็บไซต์？(เลือกได้หลายข้อ)</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="action" value="สอบถามข้อมูล"> สอบถามข้อมูล</label>
+            <label><input type="checkbox" name="action" value="มาที่ร้าน"> มาที่ร้าน</label>
+            <label><input type="checkbox" name="action" value="จองคิว"> จองคิว</label>
+            <label><input type="checkbox" name="action" value="ซื้อสินค้า"> ซื้อสินค้า</label>
+            <label><input type="checkbox" name="action" value="โทรศัพท์"> โทรศัพท์</label>
+            <label><input type="checkbox" name="action" value="ติดตาม SNS"> ติดตาม SNS</label>
+            <label><input type="checkbox" name="action" value="อื่นๆ"> อื่นๆ</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. ขนาดและฟังก์ชันของเว็บไซต์ -->
+      <div class="section">
+        <div class="section-title"><span class="num">3</span> ขนาดและฟังก์ชันของเว็บไซต์</div>
+        <div class="field">
+          <label>ขนาดเว็บไซต์ที่ต้องการ</label>
+          <div class="radio-group">
+            <label><input type="radio" name="scale" value="1 หน้า (Landing Page)"> 1 หน้า (Landing Page)</label>
+            <label><input type="radio" name="scale" value="ประมาณ 5 หน้า"> ประมาณ 5 หน้า</label>
+            <label><input type="radio" name="scale" value="10 หน้าขึ้นไป"> 10 หน้าขึ้นไป</label>
+            <label><input type="radio" name="scale" value="ให้ตัดสินใจให้"> ให้ตัดสินใจให้</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>ฟังก์ชันที่ต้องการ (เลือกได้หลายข้อ)</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="features" value="แบบฟอร์มติดต่อ"> แบบฟอร์มติดต่อ</label>
+            <label><input type="checkbox" name="features" value="ระบบจองคิว"> ระบบจองคิว</label>
+            <label><input type="checkbox" name="features" value="ร้านค้าออนไลน์"> ร้านค้าออนไลน์ (EC)</label>
+            <label><input type="checkbox" name="features" value="บล็อก / ข่าวสาร"> บล็อก / ข่าวสาร</label>
+            <label><input type="checkbox" name="features" value="เชื่อมต่อ SNS"> เชื่อมต่อ SNS</label>
+            <label><input type="checkbox" name="features" value="หลายภาษา"> หลายภาษา</label>
+            <label><input type="checkbox" name="features" value="แชทบอท"> แชทบอท</label>
+            <label><input type="checkbox" name="features" value="ระบบสมาชิก"> ระบบสมาชิก / ล็อกอิน</label>
+            <label><input type="checkbox" name="features" value="Google Maps"> Google Maps</label>
+            <label><input type="checkbox" name="features" value="วิดีโอ"> วิดีโอ</label>
+            <label><input type="checkbox" name="features" value="วิเคราะห์ข้อมูล"> วิเคราะห์ข้อมูล (Google Analytics)</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>ฟังก์ชันอื่นๆ ที่ต้องการ (ถ้ามี)</label>
+          <input type="text" id="otherFeatures" placeholder="เช่น: ระบบส่งอีเมลข่าวสาร, ระบบจัดการลูกค้า เป็นต้น">
+        </div>
+      </div>
+
+      <!-- 4. ดีไซน์ -->
+      <div class="section">
+        <div class="section-title"><span class="num">4</span> ดีไซน์</div>
+        <div class="field">
+          <label>เว็บไซต์ตัวอย่างที่ชอบ (ถ้ามี URL 2-3 เว็บ)</label>
+          <textarea id="refSites" placeholder="เช่น:&#10;https://example1.com (ชอบตรงที่ดูสะอาดตา)&#10;https://example2.com (ชอบสีที่ใช้)"></textarea>
+          <p class="hint">※ ถ้าบอกได้ว่าชอบตรงไหนจะช่วยได้มากค่ะ</p>
+        </div>
+        <div class="field">
+          <label>สไตล์ดีไซน์ที่ชอบ (เลือกได้หลายข้อ)</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="design" value="เรียบง่าย / มินิมอล"> เรียบง่าย / มินิมอล</label>
+            <label><input type="checkbox" name="design" value="น่ารัก / ป๊อป"> น่ารัก / ป๊อป</label>
+            <label><input type="checkbox" name="design" value="เท่ / สไตลิช"> เท่ / สไตลิช</label>
+            <label><input type="checkbox" name="design" value="หรูหรา / เอลิแกนท์"> หรูหรา / เอลิแกนท์</label>
+            <label><input type="checkbox" name="design" value="ธรรมชาติ / อบอุ่น"> ธรรมชาติ / อบอุ่น</label>
+            <label><input type="checkbox" name="design" value="ให้ตัดสินใจให้"> ให้ตัดสินใจให้</label>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>สีหลักของแบรนด์ (ถ้ามี)</label>
+            <input type="text" id="brandColor" placeholder="เช่น: สีฟ้ากับขาว / ไม่มี">
+          </div>
+          <div class="field">
+            <label>มีโลโก้หรือไม่？</label>
+            <div class="radio-group">
+              <label><input type="radio" name="logo" value="มี (มีไฟล์แล้ว)"> มี (มีไฟล์แล้ว)</label>
+              <label><input type="radio" name="logo" value="มี (ต้องปรับปรุง)"> มี (ต้องปรับปรุง)</label>
+              <label><input type="radio" name="logo" value="ไม่มี (ต้องการออกแบบใหม่)"> ไม่มี (ต้องการออกแบบใหม่)</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>รูปภาพสำหรับเว็บไซต์</label>
+          <div class="radio-group">
+            <label><input type="radio" name="photo" value="มีรูปพร้อมแล้ว"> มีรูปพร้อมแล้ว</label>
+            <label><input type="radio" name="photo" value="มีบางส่วน (ต้องถ่ายเพิ่ม)"> มีบางส่วน (ต้องถ่ายเพิ่ม)</label>
+            <label><input type="radio" name="photo" value="ไม่มี (ใช้รูปฟรี / จ้างถ่าย)"> ไม่มี (ใช้รูปฟรี / จ้างถ่าย)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. เนื้อหา -->
+      <div class="section">
+        <div class="section-title"><span class="num">5</span> เนื้อหา</div>
+        <div class="field">
+          <label>ข้อความสำหรับเว็บไซต์ (เนื้อหา)</label>
+          <div class="radio-group">
+            <label><input type="radio" name="text" value="เตรียมเอง"> เตรียมเอง</label>
+            <label><input type="radio" name="text" value="ต้องการตัวอย่าง"> ต้องการให้ช่วยร่างให้ก่อน</label>
+            <label><input type="radio" name="text" value="ให้จัดการทั้งหมด"> ให้จัดการทั้งหมด</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>จำนวนสินค้า / บริการที่จะแสดง</label>
+          <input type="text" id="productCount" placeholder="เช่น: สินค้า 50 รายการ / บริการ 5 ประเภท / เมนู 20 รายการ">
+        </div>
+        <div class="field">
+          <label>บัญชี SNS ที่ต้องการเชื่อมต่อ</label>
+          <textarea id="snsAccounts" placeholder="เช่น:&#10;Instagram: @example&#10;Facebook: https://facebook.com/example&#10;LINE: @example&#10;TikTok: @example"></textarea>
+        </div>
+      </div>
+
+      <!-- 6. โดเมนและเทคนิค -->
+      <div class="section">
+        <div class="section-title"><span class="num">6</span> โดเมนและเทคนิค</div>
+        <div class="field-row">
+          <div class="field">
+            <label>มีโดเมน (ชื่อเว็บไซต์) แล้วหรือไม่？</label>
+            <div class="radio-group">
+              <label><input type="radio" name="domain" value="มีแล้ว"> มีแล้ว</label>
+              <label><input type="radio" name="domain" value="ยังไม่มี (ต้องการจดทะเบียน)"> ยังไม่มี (ต้องการจดทะเบียน)</label>
+              <label><input type="radio" name="domain" value="ไม่แน่ใจ"> ไม่แน่ใจ</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>ชื่อโดเมนที่ต้องการ</label>
+            <input type="text" id="domainName" placeholder="เช่น: example.com / example.co.th">
+          </div>
+        </div>
+        <div class="field">
+          <label>มีเว็บไซต์อยู่แล้วหรือไม่？(กรณีทำใหม่)</label>
+          <input type="text" id="currentSite" placeholder="เช่น: https://current-site.com (ถ้าไม่มีเว้นว่างไว้)">
+        </div>
+      </div>
+
+      <!-- 7. การดูแลและอัพเดท -->
+      <div class="section">
+        <div class="section-title"><span class="num">7</span> การดูแลและอัพเดท</div>
+        <div class="field-row">
+          <div class="field">
+            <label>หลังเปิดใช้งาน ใครจะเป็นคนอัพเดท？</label>
+            <div class="radio-group">
+              <label><input type="radio" name="update" value="อัพเดทเอง"> อัพเดทเอง</label>
+              <label><input type="radio" name="update" value="ให้ผู้จัดทำดูแล"> ให้ผู้จัดทำดูแล</label>
+              <label><input type="radio" name="update" value="ยังไม่แน่ใจ"> ยังไม่แน่ใจ</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>ความถี่ในการอัพเดท</label>
+            <div class="radio-group">
+              <label><input type="radio" name="freq" value="ทุกวัน"> ทุกวัน</label>
+              <label><input type="radio" name="freq" value="สัปดาห์ละครั้ง"> สัปดาห์ละครั้ง</label>
+              <label><input type="radio" name="freq" value="เดือนละครั้ง"> เดือนละครั้ง</label>
+              <label><input type="radio" name="freq" value="แทบไม่มี"> แทบไม่มี</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>ต้องการสัญญาดูแลรักษา？</label>
+          <div class="radio-group">
+            <label><input type="radio" name="support" value="ต้องการ (ดูแลรายเดือน)"> ต้องการ (ดูแลรายเดือน)</label>
+            <label><input type="radio" name="support" value="ไม่ต้องการ (ดูแลเอง)"> ไม่ต้องการ (ดูแลเอง)</label>
+            <label><input type="radio" name="support" value="ต้องการปรึกษา"> ต้องการปรึกษา</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. งบประมาณและกำหนดการ -->
+      <div class="section">
+        <div class="section-title"><span class="num">8</span> งบประมาณและกำหนดการ</div>
+        <div class="field">
+          <label>งบประมาณโดยประมาณ</label>
+          <div class="radio-group">
+            <label><input type="radio" name="budget" value="ไม่เกิน 10,000 บาท"> ไม่เกิน 10,000 บาท</label>
+            <label><input type="radio" name="budget" value="10,000 - 30,000 บาท"> 10,000 - 30,000 บาท</label>
+            <label><input type="radio" name="budget" value="30,000 - 50,000 บาท"> 30,000 - 50,000 บาท</label>
+            <label><input type="radio" name="budget" value="50,000 - 100,000 บาท"> 50,000 - 100,000 บาท</label>
+            <label><input type="radio" name="budget" value="100,000 บาทขึ้นไป"> 100,000 บาทขึ้นไป</label>
+            <label><input type="radio" name="budget" value="ต้องการปรึกษาก่อน"> ต้องการปรึกษาก่อน</label>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>วันที่ต้องการเปิดใช้งาน</label>
+            <input type="text" id="deadline" placeholder="เช่น: ภายในสิ้นเดือนกรกฎาคม / เร็วที่สุด">
+          </div>
+          <div class="field">
+            <label>ความเร่งด่วน</label>
+            <div class="radio-group">
+              <label><input type="radio" name="urgency" value="เร่งด่วน (ภายใน 1 เดือน)"> เร่งด่วน (ภายใน 1 เดือน)</label>
+              <label><input type="radio" name="urgency" value="ปกติ (2-3 เดือน)"> ปกติ (2-3 เดือน)</label>
+              <label><input type="radio" name="urgency" value="ไม่เร่ง"> ไม่เร่ง</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. อื่นๆ -->
+      <div class="section">
+        <div class="section-title"><span class="num">9</span> อื่นๆ</div>
+        <div class="field">
+          <label>เว็บไซต์คู่แข่ง (ถ้ามี)</label>
+          <textarea id="competitors" placeholder="เช่น:&#10;https://competitor1.com&#10;https://competitor2.com"></textarea>
+        </div>
+        <div class="field">
+          <label>สิ่งที่อยากทำมากที่สุด / จุดที่ให้ความสำคัญ</label>
+          <textarea id="mustHave" placeholder="เช่น: อยากมีวิดีโอหน้าแรก, อยากให้รีวิวลูกค้าโดดเด่น เป็นต้น"></textarea>
+        </div>
+        <div class="field">
+          <label>สิ่งที่ไม่ต้องการ / อยากหลีกเลี่ยง</label>
+          <textarea id="avoid" placeholder="เช่น: ไม่ชอบดีไซน์ที่ฉูดฉาดเกินไป, ไม่ต้องการป๊อปอัพ เป็นต้น"></textarea>
+        </div>
+        <div class="field">
+          <label>ข้อความเพิ่มเติม / หมายเหตุ</label>
+          <textarea id="notes" placeholder="หากมีสิ่งที่อยากปรึกษาหรือต้องการเพิ่มเติม กรุณาเขียนที่นี่ค่ะ"></textarea>
+        </div>
+      </div>
+
+      <!-- 送信ボタン -->
+      <div class="submit-area">
+        <p>กรอกข้อมูลเสร็จแล้ว กดปุ่มด้านล่างเพื่อส่งข้อมูลค่ะ</p>
+        <button type="submit" class="btn-submit" id="submitBtn">📤 ส่งแบบสอบถาม</button>
+      </div>
+
+    </form>
+
+    <!-- フッター -->
+    <div class="sheet-footer">
+      ขอบคุณที่สละเวลากรอกแบบสอบถามค่ะ เราจะติดต่อกลับโดยเร็วที่สุด
+    </div>
+
+  </div>
+
+  <!-- 送信完了メッセージ -->
+  <div class="sheet" id="successSheet" style="display:none;">
+    <div class="success-message active">
+      <div class="check-icon">✓</div>
+      <h2>ส่งข้อมูลเรียบร้อยแล้วค่ะ！🎉</h2>
+      <p>ขอบคุณที่กรอกแบบสอบถาม</p>
+      <p>เราจะตรวจสอบข้อมูลและติดต่อกลับโดยเร็วที่สุดค่ะ</p>
+      <p style="margin-top: 24px; color: #aaa; font-size: 12px;">สามารถปิดหน้านี้ได้เลยค่ะ</p>
+    </div>
+  </div>
+
+  <script>
+    // === EmailJS初期化 ===
+    emailjs.init("YQv--TZxmFnndl0XO");
+
+    // === フォーム送信処理 ===
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      const overlay = document.getElementById('loadingOverlay');
+
+      // 送信中の状態にする
+      btn.disabled = true;
+      overlay.classList.add('active');
+
+      try {
+        // 1. フォームデータを収集
+        const formData = collectFormData();
+
+        // 2. メール送信
+        await sendEmail(formData);
+
+        // 4. 完了画面を表示
+        document.getElementById('formSheet').style.display = 'none';
+        document.getElementById('successSheet').style.display = 'block';
+        window.scrollTo(0, 0);
+
+      } catch (error) {
+        console.error('送信エラー:', error);
+        alert('エラー詳細: ' + (error?.text || error?.message || JSON.stringify(error)));
+        btn.disabled = false;
+      } finally {
+        overlay.classList.remove('active');
+      }
+    }
+
+    // === フォームデータ収集 ===
+    function collectFormData() {
+      const getChecked = (name) => {
+        return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+          .map(el => el.value).join(', ') || '-';
+      };
+      const getRadio = (name) => {
+        const el = document.querySelector(`input[name="${name}"]:checked`);
+        return el ? el.value : '-';
+      };
+      const getVal = (id) => document.getElementById(id)?.value?.trim() || '-';
+
+      return {
+        // 1. ข้อมูลพื้นฐาน
+        companyName: getVal('companyName'),
+        businessType: getVal('businessType'),
+        address: getVal('address'),
+        phone: getVal('phone'),
+        email: getVal('email'),
+        contactName: getVal('contactName'),
+        lineId: getVal('lineId'),
+        // 2. วัตถุประสงค์
+        purpose: getChecked('purpose'),
+        target: getVal('target'),
+        action: getChecked('action'),
+        // 3. ขนาดและฟังก์ชัน
+        scale: getRadio('scale'),
+        features: getChecked('features'),
+        otherFeatures: getVal('otherFeatures'),
+        // 4. ดีไซน์
+        refSites: getVal('refSites'),
+        design: getChecked('design'),
+        brandColor: getVal('brandColor'),
+        logo: getRadio('logo'),
+        photo: getRadio('photo'),
+        // 5. เนื้อหา
+        text: getRadio('text'),
+        productCount: getVal('productCount'),
+        snsAccounts: getVal('snsAccounts'),
+        // 6. โดเมน
+        domain: getRadio('domain'),
+        domainName: getVal('domainName'),
+        currentSite: getVal('currentSite'),
+        // 7. การดูแล
+        update: getRadio('update'),
+        freq: getRadio('freq'),
+        support: getRadio('support'),
+        // 8. งบประมาณ
+        budget: getRadio('budget'),
+        deadline: getVal('deadline'),
+        urgency: getRadio('urgency'),
+        // 9. อื่นๆ
+        competitors: getVal('competitors'),
+        mustHave: getVal('mustHave'),
+        avoid: getVal('avoid'),
+        notes: getVal('notes'),
+        // メタ
+        submittedAt: new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' })
+      };
+    }
+
+    // === メール送信 ===
+    async function sendEmail(data) {
+      await emailjs.send("service_3j7rkr6", "template_j20xjto", {
+        name: data.contactName,
+        message: 'ヒアリングシートが提出されました: ' + data.companyName,
+        company_name: data.companyName,
+        business_type: data.businessType,
+        address: data.address,
+        phone: data.phone,
+        client_email: data.email,
+        contact_name: data.contactName,
+        line_id: data.lineId,
+        purpose: data.purpose,
+        target: data.target,
+        action: data.action,
+        scale: data.scale,
+        features: data.features,
+        other_features: data.otherFeatures,
+        ref_sites: data.refSites,
+        design: data.design,
+        brand_color: data.brandColor,
+        logo: data.logo,
+        photo: data.photo,
+        text_prep: data.text,
+        product_count: data.productCount,
+        sns_accounts: data.snsAccounts,
+        domain: data.domain,
+        domain_name: data.domainName,
+        current_site: data.currentSite,
+        update_by: data.update,
+        freq: data.freq,
+        support: data.support,
+        budget: data.budget,
+        deadline: data.deadline,
+        urgency: data.urgency,
+        competitors: data.competitors,
+        must_have: data.mustHave,
+        avoid: data.avoid,
+        notes: data.notes,
+        submitted_at: data.submittedAt,
+        email: data.email
+      });
+    }
+  </script>
+
+</body>
+</html>

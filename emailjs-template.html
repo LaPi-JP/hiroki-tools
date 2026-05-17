@@ -1,0 +1,241 @@
+<!-- EmailJSテンプレートに貼り付ける内容 -->
+<!-- Subject: [Hearing Sheet] {{company_name}} - {{contact_name}} -->
+
+<div style="max-width:700px;margin:0 auto;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;color:#333;line-height:1.8;font-size:14px;">
+
+  <!-- ヘッダー -->
+  <div style="text-align:center;padding:24px 0 16px;border-bottom:3px solid #2c3e50;">
+    <h1 style="font-size:22px;color:#2c3e50;margin:0 0 4px;">&#128203; Web Site Hearing Sheet</h1>
+    <p style="font-size:13px;color:#7f8c8d;margin:0;">&#128197; {{submitted_at}}</p>
+  </div>
+
+  <!-- 1. ข้อมูลพื้นฐาน -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9312; ข้อมูลพื้นฐาน
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">ชื่อบริษัท / ร้าน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{company_name}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ประเภทธุรกิจ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{business_type}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ที่อยู่</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{address}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">เบอร์โทรศัพท์</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{phone}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">อีเมล</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{client_email}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ผู้ติดต่อ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{contact_name}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">LINE ID</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{line_id}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 2. วัตถุประสงค์ -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9313; วัตถุประสงค์ของเว็บไซต์
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">จุดประสงค์</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{purpose}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">กลุ่มเป้าหมาย</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{target}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">Action ที่ต้องการ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{action}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 3. ขนาดและฟังก์ชัน -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9314; ขนาดและฟังก์ชันของเว็บไซต์
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">ขนาด</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{scale}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ฟังก์ชัน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{features}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ฟังก์ชันอื่นๆ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{other_features}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 4. ดีไซน์ -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9315; ดีไซน์
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">เว็บตัวอย่าง</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{ref_sites}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">สไตล์</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{design}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">สีแบรนด์</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{brand_color}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">โลโก้</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{logo}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">รูปภาพ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{photo}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 5. เนื้อหา -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9316; เนื้อหา
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">ข้อความ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{text_prep}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">จำนวนสินค้า/บริการ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{product_count}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">SNS</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{sns_accounts}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 6. โดเมน -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9317; โดเมนและเทคนิค
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">โดเมน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{domain}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ชื่อโดเมน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{domain_name}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">เว็บปัจจุบัน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{current_site}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 7. การดูแล -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9318; การดูแลและอัพเดท
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">ผู้อัพเดท</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{update_by}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ความถี่</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{freq}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">สัญญาดูแล</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{support}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 8. งบประมาณ -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9319; งบประมาณและกำหนดการ
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">งบประมาณ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:700;color:#e74c3c;">{{budget}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">วันเปิดใช้งาน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{deadline}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">ความเร่งด่วน</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{urgency}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 9. อื่นๆ -->
+  <div style="margin-top:24px;">
+    <div style="background:#2c3e50;color:#fff;padding:8px 16px;border-radius:6px;font-size:15px;font-weight:700;">
+      &#9320; อื่นๆ
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-top:8px;">
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;width:200px;vertical-align:top;">เว็บคู่แข่ง</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{competitors}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">สิ่งสำคัญที่สุด</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{must_have}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">สิ่งที่ไม่ต้องการ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{avoid}}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;font-weight:600;color:#2c3e50;vertical-align:top;">หมายเหตุ</td>
+        <td style="padding:8px 12px;border-bottom:1px solid #eee;">{{notes}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- PDF保存リンク -->
+  <div style="text-align:center;margin-top:32px;padding:20px;background:#f0f4f8;border-radius:8px;">
+    <p style="font-size:14px;color:#2c3e50;font-weight:700;margin:0 0 12px;">&#128196; ヒアリングシートをPDFで保存</p>
+    <a href="{{view_link}}" style="display:inline-block;padding:12px 40px;background:#2c3e50;color:#fff;text-decoration:none;border-radius:6px;font-size:14px;font-weight:600;" target="_blank">フォーム形式で表示 → PDF保存</a>
+    <p style="font-size:11px;color:#999;margin:8px 0 0;">リンクを開いて「印刷 → PDFに保存」で保管できます</p>
+  </div>
+
+  <!-- フッター -->
+  <div style="text-align:center;margin-top:16px;padding-top:16px;border-top:2px solid #ecf0f1;font-size:11px;color:#aaa;">
+    This hearing sheet was submitted via hiroki-tools.vercel.app
+  </div>
+
+</div>

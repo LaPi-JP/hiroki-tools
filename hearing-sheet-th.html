@@ -302,6 +302,86 @@
       color: #aaa;
     }
 
+    /* 閲覧モード: 入力欄を回答テキストに変換 */
+    .view-mode input,
+    .view-mode textarea {
+      border: none;
+      background: #f0f4f8;
+      font-weight: 600;
+      color: #2c3e50;
+      pointer-events: none;
+    }
+
+    .view-mode .checkbox-group,
+    .view-mode .radio-group {
+      display: none;
+    }
+
+    .view-mode .checked-answer {
+      display: block;
+      font-weight: 600;
+      color: #2c3e50;
+      background: #f0f4f8;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .view-mode .btn-submit {
+      display: none;
+    }
+
+    .view-mode .submit-area p {
+      display: none;
+    }
+
+    /* PDF保存ボタン */
+    .btn-print {
+      display: none;
+      padding: 16px 60px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #2c3e50;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(44,62,80,0.3);
+      transition: all 0.2s;
+      margin-top: 12px;
+    }
+
+    .btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(44,62,80,0.4);
+    }
+
+    .view-mode .btn-print {
+      display: inline-block;
+    }
+
+    /* 閲覧モードのヘッダーに送信日時を表示 */
+    .view-meta {
+      display: none;
+      font-size: 13px;
+      color: #7f8c8d;
+      margin-top: 8px;
+    }
+
+    .view-mode .view-meta {
+      display: block;
+    }
+
+    /* 印刷時のスタイル */
+    @media print {
+      body { background: #fff; }
+      .sheet { box-shadow: none; margin: 0; padding: 24px; }
+      .btn-print { display: none !important; }
+      .submit-area { display: none; }
+      .sheet-footer { display: none; }
+    }
+
     /* レスポンシブ */
     @media (max-width: 768px) {
       .sheet {
@@ -338,6 +418,7 @@
     <div class="sheet-header">
       <h1>📋 แบบสอบถามเพื่อจัดทำเว็บไซต์</h1>
       <p>Web Site Hearing Sheet</p>
+      <div class="view-meta" id="viewMeta"></div>
       <div class="intro">
         กรุณากรอกข้อมูลด้านล่างให้ได้มากที่สุดเท่าที่จะทำได้ค่ะ<br>
         ข้อมูลเหล่านี้จะช่วยให้เราสามารถออกแบบและจัดทำเว็บไซต์ที่ตรงกับความต้องการของคุณมากที่สุด<br>
@@ -628,6 +709,7 @@
       <div class="submit-area">
         <p>กรอกข้อมูลเสร็จแล้ว กดปุ่มด้านล่างเพื่อส่งข้อมูลค่ะ</p>
         <button type="submit" class="btn-submit" id="submitBtn">📤 ส่งแบบสอบถาม</button>
+        <button type="button" class="btn-print" onclick="window.print()">🖨️ PDFで保存 / 印刷</button>
       </div>
 
     </form>
@@ -747,11 +829,20 @@
       };
     }
 
+    // === 閲覧リンク生成 ===
+    function generateViewLink(data) {
+      const json = JSON.stringify(data);
+      const encoded = btoa(unescape(encodeURIComponent(json)));
+      return 'https://hiroki-tools.vercel.app/hearing-sheet-th.html#data=' + encoded;
+    }
+
     // === メール送信 ===
     async function sendEmail(data) {
+      const viewLink = generateViewLink(data);
       await emailjs.send("service_3j7rkr6", "template_j20xjto", {
         name: data.contactName,
         message: 'ヒアリングシートが提出されました: ' + data.companyName,
+        view_link: viewLink,
         company_name: data.companyName,
         business_type: data.businessType,
         address: data.address,
@@ -790,6 +881,109 @@
         email: data.email
       });
     }
+
+    // === 閲覧モード: URLハッシュからデータを読み込み ===
+    function loadViewMode() {
+      const hash = window.location.hash;
+      if (!hash.startsWith('#data=')) return;
+
+      try {
+        const encoded = hash.substring(6);
+        const json = decodeURIComponent(escape(atob(encoded)));
+        const data = JSON.parse(json);
+
+        // フォームシートを閲覧モードに
+        const sheet = document.getElementById('formSheet');
+        sheet.classList.add('view-mode');
+
+        // 送信日時を表示
+        document.getElementById('viewMeta').textContent = '📅 送信日時: ' + (data.submittedAt || '-');
+
+        // イントロ文を非表示
+        document.querySelector('.intro').style.display = 'none';
+
+        // テキスト入力欄に値をセット
+        const fieldMap = {
+          companyName: data.companyName,
+          businessType: data.businessType,
+          address: data.address,
+          phone: data.phone,
+          email: data.email,
+          contactName: data.contactName,
+          lineId: data.lineId,
+          target: data.target,
+          otherFeatures: data.otherFeatures,
+          refSites: data.refSites,
+          brandColor: data.brandColor,
+          productCount: data.productCount,
+          snsAccounts: data.snsAccounts,
+          domainName: data.domainName,
+          currentSite: data.currentSite,
+          deadline: data.deadline,
+          competitors: data.competitors,
+          mustHave: data.mustHave,
+          avoid: data.avoid,
+          notes: data.notes
+        };
+
+        for (const [id, val] of Object.entries(fieldMap)) {
+          const el = document.getElementById(id);
+          if (el && val && val !== '-') el.value = val;
+        }
+
+        // チェックボックス・ラジオの回答をテキストで表示
+        const groupMap = {
+          purpose: data.purpose,
+          action: data.action,
+          features: data.features,
+          design: data.design
+        };
+
+        for (const [name, val] of Object.entries(groupMap)) {
+          if (!val || val === '-') continue;
+          const group = document.querySelector(`input[name="${name}"]`)?.closest('.checkbox-group, .radio-group');
+          if (group) {
+            const answer = document.createElement('div');
+            answer.className = 'checked-answer';
+            answer.textContent = val;
+            group.parentNode.insertBefore(answer, group.nextSibling);
+          }
+        }
+
+        const radioMap = {
+          scale: data.scale,
+          logo: data.logo,
+          photo: data.photo,
+          text: data.text,
+          domain: data.domain,
+          update: data.update,
+          freq: data.freq,
+          support: data.support,
+          budget: data.budget,
+          urgency: data.urgency
+        };
+
+        for (const [name, val] of Object.entries(radioMap)) {
+          if (!val || val === '-') continue;
+          const group = document.querySelector(`input[name="${name}"]`)?.closest('.radio-group');
+          if (group) {
+            const answer = document.createElement('div');
+            answer.className = 'checked-answer';
+            answer.textContent = val;
+            group.parentNode.insertBefore(answer, group.nextSibling);
+          }
+        }
+
+        // フォーム送信を無効化
+        document.getElementById('hearingForm').onsubmit = (e) => e.preventDefault();
+
+      } catch (err) {
+        console.error('閲覧モードエラー:', err);
+      }
+    }
+
+    // ページ読み込み時に閲覧モードをチェック
+    window.addEventListener('DOMContentLoaded', loadViewMode);
   </script>
 
 </body>
